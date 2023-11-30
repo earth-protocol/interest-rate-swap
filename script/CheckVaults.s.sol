@@ -2,32 +2,24 @@ pragma solidity ^0.8.4;
 
 import "forge-std/Script.sol";
 import "forge-std/console2.sol";
-import "@earth/strategies/common/interfaces/IStrategy.sol";
-import "@earth/vaults/EarthAutoCompoundingVaultPublic.sol";
+import "../src/strategies/common/interfaces/IStrategy.sol";
+import "../src/vaults/RiveraAutoCompoundingVaultV2Public.sol";
 import "@openzeppelin/token/ERC20/IERC20.sol";
 
 contract CheckVaults is Script {
-    address _vaultParent = 0x1E8D2C1efbF80e7BCaf2347AfA4F559756DE90B3;
-    address _vaultAsset0 = 0x7F0F5AAF002Fd32b964a2D77Ce21C9F2F9e2e18E;
-    address _vaultAsset1 = 0x0DAb8d11ed0DA724FE6AaFdd0527b78E425eD507;
+    address _vaultParent = 0x33e47Fe37FeF6AB1d83e54AAD6c8D01C048171E1;
+    address _vaultAsset0 = 0x4dCAdE22009eb0354cF44DbB777131CA2bFd3dcb;
+    address _vaultAsset1 = 0x821F88928C950F638a94b74cD44A1b676D51a310;
 
     function run() public {
-        IStrategy parentStrategy = EarthAutoCompoundingVaultPublic(_vaultParent)
+        IStrategy parentStrategy = RiveraAutoCompoundingVaultV2Public(_vaultParent)
             .strategy();
-        IStrategy asset0Strategy = EarthAutoCompoundingVaultPublic(_vaultAsset0)
+        IStrategy asset0Strategy = RiveraAutoCompoundingVaultV2Public(_vaultAsset0)
             .strategy();
-        IStrategy asset1Strategy = EarthAutoCompoundingVaultPublic(_vaultAsset1)
+        IStrategy asset1Strategy = RiveraAutoCompoundingVaultV2Public(_vaultAsset1)
             .strategy();
 
-        // IStrategy parentStrategy = IStrategy(
-        //     0xBeC9acF7e1b102EFD92747Ddb0F9eD175BFa375f
-        // );
-        // IStrategy asset0Strategy = IStrategy(
-        //     0x81a904f1F7296015c5Df2E9280AdEe0eeCc4D95c
-        // );
-        // IStrategy asset1Strategy = IStrategy(
-        //     0xaBff647aF832e876F9d2e515D58d4eA4778ca3aA
-        // );
+
 
         uint256 balanceOfParent = parentStrategy.balanceOf();
         uint256 balanceOfAsset0 = asset0Strategy.balanceOf();

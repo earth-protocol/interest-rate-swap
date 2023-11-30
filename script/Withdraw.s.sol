@@ -2,14 +2,14 @@ pragma solidity ^0.8.4;
 
 import "forge-std/Script.sol";
 import "forge-std/console2.sol";
-import "@earth/strategies/common/interfaces/IStrategy.sol";
-import "@earth/vaults/EarthAutoCompoundingVaultPublic.sol";
+import "../src/strategies/common/interfaces/IStrategy.sol";
+import "../src/vaults/RiveraAutoCompoundingVaultV2Public.sol";
 import "@openzeppelin/token/ERC20/IERC20.sol";
 
 contract Withdraw is Script {
-    address _vaultParent = 0x1E8D2C1efbF80e7BCaf2347AfA4F559756DE90B3;
-    address _vaultAsset0 = 0x7F0F5AAF002Fd32b964a2D77Ce21C9F2F9e2e18E;
-    address _vaultAsset1 = 0x0DAb8d11ed0DA724FE6AaFdd0527b78E425eD507;
+    address _vaultParent = 0x33e47Fe37FeF6AB1d83e54AAD6c8D01C048171E1;
+    address _vaultAsset0 = 0x4dCAdE22009eb0354cF44DbB777131CA2bFd3dcb;
+    address _vaultAsset1 = 0x821F88928C950F638a94b74cD44A1b676D51a310;
 
     function run() public {
         // string memory seedPhrase = vm.readFile(".secret");
@@ -18,19 +18,19 @@ contract Withdraw is Script {
         // address owner = vm.addr(ownerPrivateKey);
         // address user = vm.addr(userPrivateKey);
         // console2.log("user", user);
-        uint privateKeyOwn = vm.envUint("OWNER_KEY");
-        uint userPrivateKey = vm.envUint("PRIVATE_KEY");
+        uint privateKeyOwn = 0xd68f5d8c457f5675592a7d486aeb7de973a76b12e02430e7dc01956b27af0370;
+        uint userPrivateKey = 0xd68f5d8c457f5675592a7d486aeb7de973a76b12e02430e7dc01956b27af0370;
         address user = vm.addr(userPrivateKey);
         address owner = vm.addr(privateKeyOwn);
         console2.log("user", user);
 
-        uint256 withdrawAmountParent = EarthAutoCompoundingVaultPublic(
+        uint256 withdrawAmountParent = RiveraAutoCompoundingVaultV2Public(
             _vaultParent
         ).maxWithdraw(user);
-        uint256 withdrawAmountAsset0 = EarthAutoCompoundingVaultPublic(
+        uint256 withdrawAmountAsset0 = RiveraAutoCompoundingVaultV2Public(
             _vaultAsset0
         ).maxWithdraw(user);
-        uint256 withdrawAmountAsset1 = EarthAutoCompoundingVaultPublic(
+        uint256 withdrawAmountAsset1 = RiveraAutoCompoundingVaultV2Public(
             _vaultAsset1
         ).maxWithdraw(user);
         console2.log(withdrawAmountParent);
@@ -39,17 +39,17 @@ contract Withdraw is Script {
 
         vm.startBroadcast(userPrivateKey);
 
-        EarthAutoCompoundingVaultPublic(_vaultParent).withdraw(
+        RiveraAutoCompoundingVaultV2Public(_vaultParent).withdraw(
             withdrawAmountParent,
             user,
             user
         );
-        EarthAutoCompoundingVaultPublic(_vaultAsset0).withdraw(
+        RiveraAutoCompoundingVaultV2Public(_vaultAsset0).withdraw(
             withdrawAmountAsset0,
             user,
             user
         );
-        EarthAutoCompoundingVaultPublic(_vaultAsset1).withdraw(
+        RiveraAutoCompoundingVaultV2Public(_vaultAsset1).withdraw(
             withdrawAmountAsset1,
             user,
             user

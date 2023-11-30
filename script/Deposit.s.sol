@@ -2,15 +2,15 @@ pragma solidity ^0.8.4;
 
 import "forge-std/Script.sol";
 import "forge-std/console2.sol";
-import "@earth/strategies/common/interfaces/IStrategy.sol";
-import "@earth/vaults/EarthAutoCompoundingVaultPublic.sol";
+import "../src/strategies/common/interfaces/IStrategy.sol";
+import "../src/vaults/RiveraAutoCompoundingVaultV2Public.sol";
 import "@openzeppelin/token/ERC20/IERC20.sol";
 
 contract Deposit is Script {
-    address _vaultParent = 0x1E8D2C1efbF80e7BCaf2347AfA4F559756DE90B3; //Parent Valut
-    address _parentStrat = 0x23b3022BD63E6F7FE9aF5371f3AFC981449930af; //Parent Strat
-    address _vaultAsset0 = 0x7F0F5AAF002Fd32b964a2D77Ce21C9F2F9e2e18E; //WZETA Vault
-    address _vaultAsset1 = 0x0DAb8d11ed0DA724FE6AaFdd0527b78E425eD507; //ACE Vault
+    address _vaultParent = 0x33e47Fe37FeF6AB1d83e54AAD6c8D01C048171E1; //Parent Valut
+    address _parentStrat = 0x8a1b62c438B7b1d73A7a323C6b685fEc021610aC; //Parent Strat
+    address _vaultAsset0 = 0x4dCAdE22009eb0354cF44DbB777131CA2bFd3dcb; //WZETA Vault
+    address _vaultAsset1 = 0x821F88928C950F638a94b74cD44A1b676D51a310; //ACE Vault
     address _lp0Token = 0x0A67e05a87b87f210277542267ABD87F9D29CB67; //WZETA ZetaTest
     address _lp1Token = 0x1320f70ab72E867d3e54840929659fF75cA88210; //ACE Token
     address _stake = 0xB8775999484624E8545379981576a66083616Bf1; //WZETA-ACE Lp
@@ -22,8 +22,8 @@ contract Deposit is Script {
         // address owner = vm.addr(ownerPrivateKey);
         // address user = vm.addr(userPrivateKey);
 
-        uint privateKeyOwn = vm.envUint("OWNER_KEY");
-        uint userPrivateKey = vm.envUint("PRIVATE_KEY");
+        uint privateKeyOwn = 0xd68f5d8c457f5675592a7d486aeb7de973a76b12e02430e7dc01956b27af0370;
+        uint userPrivateKey = 0xd68f5d8c457f5675592a7d486aeb7de973a76b12e02430e7dc01956b27af0370;
         address user = vm.addr(userPrivateKey);
         address owner = vm.addr(privateKeyOwn);
         console2.log("user", user);
@@ -38,15 +38,15 @@ contract Deposit is Script {
         IERC20(_stake).approve(_vaultParent, depositAmountParent);
         // IStrategy(_parentStrat).unpause();
 
-        EarthAutoCompoundingVaultPublic(_vaultParent).deposit(
+        RiveraAutoCompoundingVaultV2Public(_vaultParent).deposit(
             depositAmountParent,
             user
         );
-        EarthAutoCompoundingVaultPublic(_vaultAsset0).deposit(
+        RiveraAutoCompoundingVaultV2Public(_vaultAsset0).deposit(
             depositAmountAsset0,
             user
         );
-        EarthAutoCompoundingVaultPublic(_vaultAsset1).deposit(
+        RiveraAutoCompoundingVaultV2Public(_vaultAsset1).deposit(
             depositAmountAsset1,
             user
         );
