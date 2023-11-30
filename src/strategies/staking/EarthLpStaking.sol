@@ -366,30 +366,7 @@ contract EarthLpStaking is AbstractStrategy, ReentrancyGuard {
         asset1Balance = IERC20(asset1).balanceOf(address(this));
         _swapTokens(asset1Balance / 2, _asset1Toasset0Route);
 
-        // if (
-        //     asset0Balance <
-        //     tokenAToTokenBConversion(asset1, asset0, asset1Balance)
-        // ) {
-        //     uint256 swapAmountInAsset0 = tokenAToTokenBConversion(
-        //         asset1,
-        //         asset0,
-        //         asset1Balance
-        //     ) - asset0Balance;
-        //     _swapTokens(
-        //         tokenAToTokenBConversion(asset0, asset1, swapAmountInAsset0),
-        //         _asset1Toasset0Route
-        //     );
-        // } else {
-        //     uint256 swapAmountInAsset1 = tokenAToTokenBConversion(
-        //         asset0,
-        //         asset1,
-        //         asset0Balance
-        //     ) - asset1Balance;
-        //     _swapTokens(
-        //         tokenAToTokenBConversion(asset1, asset0, swapAmountInAsset1),
-        //         _asset0Toasset1Route
-        //     );
-        // }
+       
         _addLiquidity();
         // IERC20(stake).safeTransfer(vault, balanceOfStake());
         delete assetStrategyMap[assetStrategiesArr[0]];
@@ -408,68 +385,6 @@ contract EarthLpStaking is AbstractStrategy, ReentrancyGuard {
         );
     }
 
-    // function endEpoch() public {
-    //     _checkOwner();
-    //     if (epochRunning == false) revert();
-    //     _harvest();
-    //     address[] memory assetStrategiesArr = assetStrategies;
-    //     uint256 stakedLp = balanceOfPool();
-    //     IMasterChef(chef).withdraw(poolId, stakedLp);
-    //     uint256 fixedReturnInLp = _calculatFixedReturnLp();
-    //     address asset0 = ICommonStrat(assetStrategiesArr[0]).asset();
-    //     address asset1 = ICommonStrat(assetStrategiesArr[1]).asset();
-    //     IERC20(stake).approve(router, fixedReturnInLp);
-    //     (uint amount0, uint amount1) = IPancakeRouter02(router).removeLiquidity(
-    //         asset0,
-    //         asset1,
-    //         fixedReturnInLp,
-    //         0,
-    //         0,
-    //         address(this),
-    //         block.timestamp
-    //     );
-    //     address[] memory _asset1Toasset0Route = new address[](2);
-    //     _asset1Toasset0Route[0] = asset1;
-    //     _asset1Toasset0Route[1] = asset0;
-    //     address[] memory _asset0Toasset1Route = new address[](2);
-    //     _asset0Toasset1Route[0] = asset0;
-    //     _asset0Toasset1Route[1] = asset1;
-
-    //     //convert amount1 of asset1 tokens to asset0
-    //     IPancakeRouter02(router).swapExactTokensForTokens(
-    //         amount1,
-    //         0,
-    //         _asset1Toasset0Route,
-    //         address(this),
-    //         block.timestamp
-    //     );
-    //     uint256 balanceofAsset0 = IERC20(asset0).balanceOf(address(this));
-    //     uint256 rtrnAmntStart0Inasset0 = assetStrategyMap[assetStrategiesArr[0]]
-    //         .returnAmountNative;
-    //     uint256 rtrnAmntStart1Inasset0 = balanceofAsset0 -
-    //         rtrnAmntStart0Inasset0;
-
-    //     //convert rtrnAmntStart1Inasset0 of asset0 tokens to asset1 to transfer to strat1
-    //     IPancakeRouter02(router).swapExactTokensForTokens(
-    //         rtrnAmntStart1Inasset0,
-    //         0,
-    //         _asset0Toasset1Route,
-    //         address(this),
-    //         block.timestamp
-    //     );
-    //     IERC20(asset0).safeTransfer(
-    //         assetStrategiesArr[0],
-    //         IERC20(asset0).balanceOf(address(this))
-    //     );
-    //     IERC20(asset1).safeTransfer(
-    //         assetStrategiesArr[1],
-    //         IERC20(asset1).balanceOf(address(this))
-    //     );
-    //     delete assetStrategyMap[assetStrategiesArr[0]];
-    //     delete assetStrategyMap[assetStrategiesArr[1]];
-    //     delete assetStrategies;
-    //     epochRunning = false;
-    // }
 
     function _calculatFixedReturnNative(
         uint256 amount,
