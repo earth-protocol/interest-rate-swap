@@ -18,6 +18,18 @@ contract EarthLpStakingScript is Script {
     address _lp1Token = 0x1320f70ab72E867d3e54840929659fF75cA88210; //ACE token
     address _factory = 0xcE8614ECE9C7c160600ca956667d3c0f7B98a350; //ACE factory
 
+    // fees params
+
+    address protocol;
+    address partner;
+    uint256 partnerFee;
+    uint256 protocolFee;
+    uint256 fundManagerFee;
+    uint256 withdrawFee;
+    uint256 feeDecimals;
+
+
+
     address[] _rewardToLp0Route = new address[](2);
     address[] _rewardToLp1Route = new address[](2);
 
@@ -59,11 +71,23 @@ contract EarthLpStakingScript is Script {
             _factory
         );
 
+
+        EarthFeesParams memory feesParams = EarthFeesParams(
+            protocol,
+            partner,
+            partnerFee,
+            protocolFee,
+            fundManagerFee,
+            feeDecimals,
+            withdrawFee
+            );
+
         //Deploying the parantStrategy
 
         EarthLpStaking parentStrategy = new EarthLpStaking(
             earthLpStakingParams,
-            _commonAddresses
+            _commonAddresses,
+            feesParams
         );
         vault.init(IStrategy(address(parentStrategy)));
         console2.logAddress(address(vault.strategy()));
