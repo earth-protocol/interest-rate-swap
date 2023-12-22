@@ -7,13 +7,13 @@ import "../src/vaults/RiveraAutoCompoundingVaultV2Public.sol";
 import "@openzeppelin/token/ERC20/IERC20.sol";
 
 contract Deposit is Script {
-    address _vaultParent = 0x33e47Fe37FeF6AB1d83e54AAD6c8D01C048171E1; //Parent Valut
-    address _parentStrat = 0x8a1b62c438B7b1d73A7a323C6b685fEc021610aC; //Parent Strat
-    address _vaultAsset0 = 0x4dCAdE22009eb0354cF44DbB777131CA2bFd3dcb; //WZETA Vault
-    address _vaultAsset1 = 0x821F88928C950F638a94b74cD44A1b676D51a310; //ACE Vault
-    address _lp0Token = 0x0A67e05a87b87f210277542267ABD87F9D29CB67; //WZETA ZetaTest
-    address _lp1Token = 0x1320f70ab72E867d3e54840929659fF75cA88210; //ACE Token
-    address _stake = 0xB8775999484624E8545379981576a66083616Bf1; //WZETA-ACE Lp
+    address _vaultParent = 0x78b3b52617e275f2a8507aD70E0eCa326F17b5B8; //Parent Valut
+    address _parentStrat = 0xE1B0Fe3af433a220b0868b4adE41Bd672B0a7562; //Parent Strat
+    address _vaultAsset0 = 0x18207ac1041EFd5B733Ba0EbeA1285a8ee016056; //WZETA Vault
+    address _vaultAsset1 = 0x0cE9E05f72Ae84f15a89Ca3BDA949422Bf459a1b; //ACE Vault
+    address _lp0Token = 0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9; //WZETA ZetaTest
+    address _lp1Token = 0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111; //ACE Token
+    address _stake = 0x5f247B216E46fD86A09dfAB377d9DBe62E9dECDA; //WZETA-ACE Lp
 
     function run() public {
         // string memory seedPhrase = vm.readFile(".secret");
@@ -34,10 +34,16 @@ contract Deposit is Script {
 
         vm.startBroadcast(userPrivateKey);
         IERC20(_lp0Token).approve(_vaultAsset0, depositAmountAsset0);
+        IERC20(_lp0Token).approve(_stake, depositAmountAsset0);
         IERC20(_lp1Token).approve(_vaultAsset1, depositAmountAsset1);
         IERC20(_stake).approve(_vaultParent, depositAmountParent);
         // IStrategy(_parentStrat).unpause();
-
+         
+        // RiveraAutoCompoundingVaultV2Public(_stake).deposit(
+        //     depositAmountAsset0,
+        //     user
+        // ); 
+        
         RiveraAutoCompoundingVaultV2Public(_vaultParent).deposit(
             depositAmountParent,
             user
@@ -54,4 +60,4 @@ contract Deposit is Script {
     }
 }
 
-// forge script script/Deposit.s.sol:Deposit --rpc-url https://zetachain-athens-evm.blockpi.network/v1/rpc/public --broadcast -vvv --legacy --slow
+// forge script script/Deposit.s.sol:Deposit --rpc-url http://127.0.0.1:8545/  --broadcast -vvv --legacy --slow

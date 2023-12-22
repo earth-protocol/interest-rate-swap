@@ -7,9 +7,9 @@ import "../src/vaults/RiveraAutoCompoundingVaultV2Public.sol";
 import "@openzeppelin/token/ERC20/IERC20.sol";
 
 contract StartEpoch is Script {
-    address _vaultParent = 0x33e47Fe37FeF6AB1d83e54AAD6c8D01C048171E1;
-    address _vaultAsset0 = 0x4dCAdE22009eb0354cF44DbB777131CA2bFd3dcb;
-    address _vaultAsset1 = 0x821F88928C950F638a94b74cD44A1b676D51a310;
+    address _vaultParent = 0x78b3b52617e275f2a8507aD70E0eCa326F17b5B8;
+    address _vaultAsset0 = 0x18207ac1041EFd5B733Ba0EbeA1285a8ee016056;
+    address _vaultAsset1 = 0x0cE9E05f72Ae84f15a89Ca3BDA949422Bf459a1b;
 
     function run() public {
         // string memory seedPhrase = vm.readFile(".secret");
@@ -35,8 +35,10 @@ contract StartEpoch is Script {
         strategiesChild[0] = address(asset0Strategy);
         strategiesChild[1] = address(asset1Strategy);
         parentStrategy.startEpoch(strategiesChild);
+
+        console.log("Epoch is ",parentStrategy.epochRunning());
         vm.stopBroadcast();
     }
 }
 
-// forge script script/StartEpoch.s.sol:StartEpoch --rpc-url https://zetachain-athens-evm.blockpi.network/v1/rpc/public --broadcast -vvv --legacy --slow
+// forge script script/StartEpoch.s.sol:StartEpoch --rpc-url http://127.0.0.1:8545/ --broadcast -vvv --legacy --slow

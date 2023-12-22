@@ -60,6 +60,14 @@ contract CommonStrat is ReentrancyGuard, Ownable, Pausable {
         emit Withdraw(balanceOf(), _amount);
     }
 
+   function withdrawableBalance(uint256 _amount) public {
+     bool epoch = IStrategy(parentStrategy).epochRunning();
+      if(epoch ==true){
+      
+    }
+   }
+
+
     function beforeDeposit() external virtual {}
 
     // calculate the total underlaying 'stake' held by the strat.

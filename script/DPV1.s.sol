@@ -9,8 +9,8 @@ import "../src/strategies/common/interfaces/IStrategy.sol";
 import "../src/vaults/RiveraAutoCompoundingVaultV2Public.sol";
 
 contract DeployEarthAsset1VaultWithCommonStrategy is Script {
-    address parentStrategy = 0x23b3022BD63E6F7FE9aF5371f3AFC981449930af;
-    address _lp1Token = 0x1320f70ab72E867d3e54840929659fF75cA88210; // ACE token
+    address parentStrategy = 0xE1B0Fe3af433a220b0868b4adE41Bd672B0a7562;
+    address _lp1Token = 0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111; // wEth token
     uint256 _stratUpdateDelay = 172800;
     uint256 _vaultTvlCap = 10000e18;
 
@@ -43,10 +43,11 @@ contract DeployEarthAsset1VaultWithCommonStrategy is Script {
         vm.stopBroadcast();
     }
 }
-/*  Account 0x69605b7A74D967a3DA33A20c1b94031BC6cAF27c
+/*     Account 0x69605b7A74D967a3DA33A20c1b94031BC6cAF27c
   ACE Vault
-  0x821F88928C950F638a94b74cD44A1b676D51a310
+  0x0cE9E05f72Ae84f15a89Ca3BDA949422Bf459a1b
   ACE Strategy
-  0xb642f6F85fc68876700FB2699963611632AD8644*/
+  0x8866C8697867DF2211d02641f034c00d7dD50D31
+  */
 
-// forge script script/DPV1.s.sol:DeployEarthAsset1VaultWithCommonStrategy --rpc-url https://zetachain-athens-evm.blockpi.network/v1/rpc/public --broadcast -vvv --legacy --slow
+// forge script script/DPV1.s.sol:DeployEarthAsset1VaultWithCommonStrategy --rpc-url http://127.0.0.1:8545/ --broadcast -vvv --legacy --slow

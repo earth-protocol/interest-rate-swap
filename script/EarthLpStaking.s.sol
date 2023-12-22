@@ -9,14 +9,16 @@ import "../src/strategies/common/interfaces/IStrategy.sol";
 import "../src/vaults/RiveraAutoCompoundingVaultV2Public.sol";
 
 contract EarthLpStakingScript is Script {
-    address _stake = 0xB8775999484624E8545379981576a66083616Bf1; //ACE-WZETA
+    address _stake = 0x5f247B216E46fD86A09dfAB377d9DBe62E9dECDA; //ACE-WZETA
     uint256 _poolId = 2;
     address _chef = 0xB8775999484624E8545379981576a66083616Bf1; //Randome address for now
-    address _router = 0xf223609c70bA25e7bb286f008a50f934ee7B8A4A; // ACE router
-    address _reward = 0xB8775999484624E8545379981576a66083616Bf1; //Randome address for now
-    address _lp0Token = 0x0A67e05a87b87f210277542267ABD87F9D29CB67; //WZETA from AceSwap
-    address _lp1Token = 0x1320f70ab72E867d3e54840929659fF75cA88210; //ACE token
-    address _factory = 0xcE8614ECE9C7c160600ca956667d3c0f7B98a350; //ACE factory
+    address _router = 0xDd0840118bF9CCCc6d67b2944ddDfbdb995955FD; // fusionx v2
+    address _reward = 0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9; //Randome address for now
+    address _lp0Token = 0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9; //usdc mantle
+    address _lp1Token = 0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111; //wEth mantle
+    address _factory = 0xE5020961fA51ffd3662CDf307dEf18F9a87Cce7c; //fusionx v2 factory
+
+    address riveraVault = 0x5f247B216E46fD86A09dfAB377d9DBe62E9dECDA; // rivera usdc-weth vault
 
     // fees params
 
@@ -65,6 +67,7 @@ contract EarthLpStakingScript is Script {
             _stake,
             _poolId,
             _chef,
+            riveraVault,
             _rewardToLp0Route,
             _rewardToLp1Route,
             _lp0Token,
@@ -100,13 +103,14 @@ contract EarthLpStakingScript is Script {
 }
 
 /*    Account 0x69605b7A74D967a3DA33A20c1b94031BC6cAF27c
-  0x8a1b62c438B7b1d73A7a323C6b685fEc021610aC
+  0xE1B0Fe3af433a220b0868b4adE41Bd672B0a7562
   ParentVault
-  0x33e47Fe37FeF6AB1d83e54AAD6c8D01C048171E1
+  0x78b3b52617e275f2a8507aD70E0eCa326F17b5B8
   ParentStrategy
-  0x8a1b62c438B7b1d73A7a323C6b685fEc021610aC
+  0xE1B0Fe3af433a220b0868b4adE41Bd672B0a7562
 
-  //https://zetachain-athens-evm.blockpi.network/v1/rpc/public rpc endpoint for zeta testnet
 */
 
-//forge script script/EarthLpStaking.s.sol:EarthLpStakingScript --rpc-url https://zetachain-athens-evm.blockpi.network/v1/rpc/public --broadcast -vvv --legacy --slow
+// anvil --fork-url https://node.rivera.money/ --mnemonic "disorder pretty oblige witness close face food stumble name material couch planet"
+
+//forge script script/EarthLpStaking.s.sol:EarthLpStakingScript --rpc-url http://127.0.0.1:8545/ --broadcast -vvv --legacy --slow

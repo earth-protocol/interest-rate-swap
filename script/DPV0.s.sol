@@ -9,11 +9,11 @@ import "../src/strategies/common/interfaces/IStrategy.sol";
 import "../src/vaults/RiveraAutoCompoundingVaultV2Public.sol";
 
 contract DeployEarthAsset0VaultWithCommonStrategy is Script {
-    address parentStrategy = 0x23b3022BD63E6F7FE9aF5371f3AFC981449930af;
-    address _lp0Token = 0x0A67e05a87b87f210277542267ABD87F9D29CB67; //WZETA ZetaTest
+    address parentStrategy = 0xE1B0Fe3af433a220b0868b4adE41Bd672B0a7562;
+    address _lp0Token = 0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9; //USDC Mantle
 
     uint256 _stratUpdateDelay = 172800;
-    uint256 _vaultTvlCap = 10000e18;
+    uint256 _vaultTvlCap = 10000e6;
 
     function setUp() public {}
 
@@ -46,10 +46,10 @@ contract DeployEarthAsset0VaultWithCommonStrategy is Script {
     }
 }
 /* 
- Account 0x69605b7A74D967a3DA33A20c1b94031BC6cAF27c
+    Account 0x69605b7A74D967a3DA33A20c1b94031BC6cAF27c
   WZETA Vault
-  0x4dCAdE22009eb0354cF44DbB777131CA2bFd3dcb
+  0x18207ac1041EFd5B733Ba0EbeA1285a8ee016056
   WZETA Strategy
-  0x47C242E3336a523c2866F6c5c94dE03998064C30 */
+  0x7A514e638F87ffF531C4C723D272fE214F0C382A */
 
-// forge script script/DPV0.s.sol:DeployEarthAsset0VaultWithCommonStrategy --rpc-url https://zetachain-athens-evm.blockpi.network/v1/rpc/public --broadcast -vvv --legacy --slow
+// forge script script/DPV0.s.sol:DeployEarthAsset0VaultWithCommonStrategy --rpc-url http://127.0.0.1:8545/  --broadcast -vvv --legacy --slow
