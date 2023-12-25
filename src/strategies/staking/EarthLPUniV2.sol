@@ -29,6 +29,16 @@ struct ComonStratData {
     uint256 returnAmountNative;
 }
 
+struct EarthFeesParams {
+    address protocol;
+    address partner;
+    uint256 protocolFee;
+    uint256 partnerFee;
+    uint256 fundManagerFee;
+    uint256 feeDecimals;
+    uint256 withdrawFee;
+}
+
 contract EarthLPUniV2 is AbstractStrategy, ReentrancyGuard {
     using SafeERC20 for IERC20;
 
@@ -47,6 +57,15 @@ contract EarthLPUniV2 is AbstractStrategy, ReentrancyGuard {
     address public stake;
     address public lpToken0;
     address public lpToken1;
+
+    // fees parameters
+    address public protocol;
+    address public partner;
+    uint256 public protocolFee;
+    uint256 public partnerFee;
+    uint256 public fundManagerFee;
+    uint256 public feeDecimals;
+    uint256 public withdrawFee;
 
     // Third party contracts
     address public chef;
@@ -73,13 +92,22 @@ contract EarthLPUniV2 is AbstractStrategy, ReentrancyGuard {
     ///@param _commonAddresses: Has addresses common to all vaults, check Rivera Fee manager for more info
     constructor(
         EarthLpStakingParams memory _earthLpStakingParams,
-        CommonAddresses memory _commonAddresses
+        CommonAddresses memory _commonAddresses,
+        EarthFeesParams memory _fessPrarms
     ) AbstractStrategy(_commonAddresses) {
         stake = _earthLpStakingParams.stake;
         poolId = _earthLpStakingParams.poolId;
         chef = _earthLpStakingParams.chef;
         baseCurrency = _earthLpStakingParams.baseCurrency;
         factory = _earthLpStakingParams.factory;
+
+        protocol = _fessPrarms.protocol;
+        partner = _fessPrarms.partner;
+        protocolFee = _fessPrarms.protocolFee;
+        partnerFee = _fessPrarms.partnerFee;
+        fundManagerFee = _fessPrarms.fundManagerFee;
+        withdrawFee = _fessPrarms.withdrawFee;
+        feeDecimals = _fessPrarms.feeDecimals;
 
         address[] memory _rewardToLp0Route = _earthLpStakingParams
             .rewardToLp0Route;
@@ -372,6 +400,23 @@ contract EarthLPUniV2 is AbstractStrategy, ReentrancyGuard {
             address(this),
             block.timestamp
         );
+    }
+
+    function _chargeFees(address _token) internal {
+        uint256 tokenBal = IERC20(_token).balanceOf(address(this));
+
+        uint256 protocolFeeAmount = (tokenBal * protocolFee) / feeDecimals;
+        IERC20(_token).safeTransfer(manager, protocolFeeAmount);
+
+        uint256 fundManagerFeeAmount = (tokenBal * fundManagerFee) /
+            feeDecimals;
+        IERC20(_token).safeTransfer(owner(), fundManagerFeeAmount);
+
+        uint256 partnerFeeAmount = (tokenBal * partnerFee) / feeDecimals;
+        IERC20(_token).safeTransfer(partner, partnerFeeAmount);
+
+        uint256 wFee = (tokenBal * withdrawFee) / feeDecimals;
+        IERC20(_token).transfer(protocol, wFee);
     }
 
     function _calculatFixedReturnNative(
